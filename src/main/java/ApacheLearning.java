@@ -1,3 +1,10 @@
+import org.apache.beam.sdk.Pipeline;
+import org.apache.beam.sdk.io.TextIO;
+import org.apache.beam.sdk.options.PipelineOptions;
+import org.apache.beam.sdk.options.PipelineOptionsFactory;
+import org.apache.beam.sdk.values.PCollection;
+import org.example.MyOptions;
+
 public class ApacheLearning {
     //Teorie
 
@@ -43,6 +50,34 @@ public class ApacheLearning {
 
      */
 
+    //Practice steps
 
+    //Create a Pipeline options and object.
+
+    //Pipeline options. Obiect de interfata MyOptions care foloseste optiunile din aceasta.
+    MyOptions options = PipelineOptionsFactory.fromArgs().withValidation().as(MyOptions.class);
+
+    //Pipeline object that uses the options we created above.
+    Pipeline p = Pipeline.create(options);
+
+    PCollection<String> lines = p.apply("ReadMyFile", TextIO.read().from(options.getInput()));
+
+
+    //PCollection transforms
+    // SYNTAX -> [Final Output PCollection] =
+    // [Initial Input PCollection]
+    // .apply([First Transform])
+    // .apply([Second Transform]
+    // .apply([Third Transform]))
+    //etc...
+    /*
+    List of core transforms:
+    -ParDo
+    -GroupByKey
+    -CoGroupByKey
+    -Combine
+    -Flatten
+    -Partition
+     */
 
 }
