@@ -2,6 +2,9 @@ import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.options.PipelineOptions;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
+import org.apache.beam.sdk.transforms.Combine;
+import org.apache.beam.sdk.transforms.DoFn;
+import org.apache.beam.sdk.transforms.SerializableFunction;
 import org.apache.beam.sdk.values.PCollection;
 import org.example.MyOptions;
 
@@ -71,6 +74,7 @@ public class ApacheLearning {
     // .apply([Third Transform]))
     //etc...
     /*
+
     List of core transforms:
     -ParDo
     -GroupByKey
@@ -79,5 +83,24 @@ public class ApacheLearning {
     -Flatten
     -Partition
      */
+
+    /*Am creat o clasa care mosteneste clasa DoFn.
+    Aceasta transforma un PCollection<String> intr-un alt PCollection<String>
+    Se foloseste adnotarea @ProcessElement
+     */
+    static class PrintEveryWordFn extends DoFn<String, String>{
+        @ProcessElement // Este o adnotare care va fi apelata pentru fiecare element intr un PCollection in timpul procesarii.
+        //Este locul unde se defineste logica fiecarui element in parte.
+        public void processElement(@Element String word , OutputReceiver<String> out){
+            // @Element se folosește pentru a spune că o anumită variabilă este elementul curent pe care îl prelucrezi
+            // OutputReceiver -> este un mecanism prin care funcțiile din Apache Beam pot emite rezultate.
+            // In cazul nostru se emite un rezultat String catre un PCollection.
+
+            out.output(word);
+            //Se foloseste functia output() pentru a emite un cuvant intr-un PCollection.
+
+        }
+
+    }
 
 }
